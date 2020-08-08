@@ -1,6 +1,7 @@
 const chalk = require('chalk')
+
 const yargs = require('yargs')
-const getNotes = require('./notes')
+const note = require('./notes')
 const {
     demandOption
 } = require('yargs')
@@ -22,8 +23,7 @@ yargs.command({
         }
     },
     handler: function (argv) {
-        console.log('Title: ', argv.title)
-        console.log('Body: ', argv.body)
+        note.addNote(argv.title, argv.body)
     }
 })
 
