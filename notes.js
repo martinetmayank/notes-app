@@ -1,18 +1,25 @@
 const fs = require('fs')
 const chalk = require('chalk')
-
-const getNotes = () => {
-    return "Your notes..."
-}
+const {
+    conflicts
+} = require('yargs')
+const {
+    title
+} = require('process')
 
 
 const addNote = (title, body) => {
     const notes = loadNote()
 
-    const duplicateNotes = notes.filter((note) => note.title === title)
+    // Filter will iterate through all items.
+    // const duplicateNotes = notes.filter((note) => note.title === title)
 
-    if (duplicateNotes.length === 0) {
+    // Find will just find the first item and then it will not iterate.
+    // Find method will return 'undefined' if not match is found.
+    const duplicateNote = notes.find((note) => note.title === title)
 
+    // if (duplicateNote === undefined) { }
+    if (!duplicateNote) {
         notes.push({
             title: title,
             body: body
@@ -23,8 +30,8 @@ const addNote = (title, body) => {
     } else {
         console.log(chalk.bold.red.bgWhite('Title already taken...'))
     }
-
 }
+
 
 const loadNote = () => {
 
@@ -60,8 +67,34 @@ const removeNote = (title) => {
 
 }
 
+
+const listNotes = () => {
+    const notes = loadNote()
+
+    notes.forEach(note => {
+        console.log(chalk.green(note.title))
+        // console.log(chalk.white(note.body))
+    });
+}
+
+
+const readNote = (title) => {
+    const notes = loadNote()
+    const note = notes.find((note) => note.title === title)
+
+    if (note) {
+        console.log(chalk.green.inverse(note.title))
+        console.log(note.body)
+    } else {
+        console.log(chalk.red.inverse('No note found...'))
+    }
+
+}
+
+
 module.exports = {
-    getNotes: getNotes,
     addNote: addNote,
-    removeNote: removeNote
+    removeNote: removeNote,
+    listNotes: listNotes,
+    readNote: readNote
 }

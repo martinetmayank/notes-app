@@ -46,8 +46,15 @@ yargs.command({
 yargs.command({
     command: 'read',
     describe: 'read a note',
-    handler() {
-        console.log('Reading note...')
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler(argv) {
+        note.readNote(argv.title)
     }
 })
 
@@ -57,7 +64,7 @@ yargs.command({
     command: 'list',
     describe: 'Lists all note',
     handler() {
-        console.log('Listing all note...')
+        notes.listNotes()
     }
 })
 
